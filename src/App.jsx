@@ -1,13 +1,30 @@
-import { useState } from 'react'
+// import { useState } from 'react'
+import NavBar from './NavBar.jsx';
+import Home from './Home.jsx';
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements, Outlet } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Root />}>
+        <Route index element={<Home />} />
+        {/* <Route path="designs" element={<Designs designs={designs} />} />
+        <Route path="about" element={<About />} />
+        <Route path="contact" element={<Contact />} /> */}
+      </Route>
+    )
+  );
+  return <RouterProvider router={router} />;
+};
 
+// Root component to wrap the navbar and outlet
+const Root = () => {
   return (
-    <div className='mx-5'>
-      main div
-    </div>
-  )
-}
+    <>
+      <NavBar />
+      <Outlet />
+    </>
+  );
+};
 
 export default App
