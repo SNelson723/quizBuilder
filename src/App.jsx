@@ -4,6 +4,7 @@ import Home from './Home.jsx';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements, Outlet } from "react-router-dom";
 
 const App = () => {
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
@@ -14,6 +15,7 @@ const App = () => {
       </Route>
     )
   );
+
   return <RouterProvider router={router} />;
 };
 
