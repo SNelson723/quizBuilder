@@ -1,6 +1,7 @@
 // import { useState } from 'react'
 import NavBar from './NavBar.jsx';
 import Home from './Home.jsx';
+import QuizGame from './QuizGame/QuizGame.jsx';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements, Outlet } from "react-router-dom";
 
 const App = () => {
@@ -9,9 +10,7 @@ const App = () => {
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route index element={<Home />} />
-        {/* <Route path="designs" element={<Designs designs={designs} />} />
-        <Route path="about" element={<About />} />
-        <Route path="contact" element={<Contact />} /> */}
+        <Route path="game" element={<QuizGame />} />
       </Route>
     )
   );
@@ -23,8 +22,10 @@ const App = () => {
 const Root = () => {
   return (
     <>
-      <NavBar />
-      <Outlet />
+      <div className='d-flex'>
+        <NavBar />
+        <Outlet />
+      </div>
     </>
   );
 };
