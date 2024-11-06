@@ -22,10 +22,8 @@ const App = () => {
 const Root = () => {
   return (
     <>
-      <div className='d-flex'>
-        <NavBar />
-        <Outlet />
-      </div>
+      <NavBar />
+      <Outlet />
     </>
   );
 };
