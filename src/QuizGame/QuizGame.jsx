@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import Form from 'react-bootstrap/Form';
+import { Form, Container, Card, Button }from 'react-bootstrap';
 
 const QuizGame = ({ quizUrl, categories}) => {
   /**
@@ -7,20 +7,26 @@ const QuizGame = ({ quizUrl, categories}) => {
    * Options for quizzes?
    * Let the use know if they got the answer right/wrong and display a prompt with a random message
    */
-  console.log(categories)
+  // console.log(categories)
 
   return (
     <>
       <h1 className="text-center">QuizGame</h1>
-      <Form>
-        <Form.Group>
-          <Form.Label>Categories</Form.Label>
-          <Form.Select>
-            <option>Select your quizzia ground!</option>
-            {categories.map(cat => <option key={cat.name + cat.id}>{cat.name}</option>)}
-          </Form.Select>
-        </Form.Group>
-      </Form>
+      <Container className="w-50">
+        <Card>
+          <Form>
+            <Form.Group className='p-2'>
+              <Form.Label>Categories</Form.Label>
+              <Form.Select>
+                <option>Select your quizzia ground!</option>
+                {categories.map(cat => <option key={cat.name + cat.id}>{cat.name}</option>)}
+              </Form.Select>
+            </Form.Group>
+
+            <Button>Get your quiz on</Button>
+          </Form>
+        </Card>
+      </Container>
     </>
   );
 };
