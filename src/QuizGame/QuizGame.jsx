@@ -18,13 +18,16 @@ const QuizGame = ({ quizUrl, categories}) => {
           <Form className='p-2'>
             <Form.Group className='d-flex'>
               <Form.Group  className='w-50'>
-                <Form.Label>Categories</Form.Label>
-                <Form.Select>
+                <Form.Label htmlFor='categories'>Categories</Form.Label>
+                <Form.Select id="categories">
                   <option>Select your quizzia ground!</option>
                   {categories.map(cat => <option key={cat.name + cat.id}>{cat.name}</option>)}
                 </Form.Select>
               </Form.Group>
 
+              <Form.Group>
+                <Form.Label></Form.Label>
+              </Form.Group>
             </Form.Group>
           </Form>
           <Button className='w-25 mx-auto'>Get your quiz on</Button>
