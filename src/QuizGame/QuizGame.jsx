@@ -25,7 +25,8 @@ const QuizGame = ({ categories }) => {
     setOption(value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     console.log(amount, difficulty, category, type);
   };
 
@@ -36,6 +37,14 @@ const QuizGame = ({ categories }) => {
       <Container className="w-50">
         <Card className='p-2'>
           <Form id="quizOptionForm" onSubmit={handleSubmit}>
+
+            <Form.Group className='w-50 mx-auto text-center'>
+              <Form.Label htmlFor='categories'>Categories</Form.Label>
+              <Form.Select id="categories" onChange={(e) => handleOnSelect(e, setCategory)}>
+                <option id="">Select your quizzia ground!</option>
+                {categories.map(cat => <option key={cat.name + cat.id} id={cat.id}>{cat.name}</option>)}
+              </Form.Select>
+            </Form.Group>
 
             <Form.Group className='w-25 mx-auto text-center'>
               <Form.Label>Number of Questions</Form.Label>
@@ -52,23 +61,16 @@ const QuizGame = ({ categories }) => {
               </Form.Select>
             </Form.Group>
 
-            <Form.Group className='w-50 mx-auto text-center'>
-              <Form.Label htmlFor='categories'>Categories</Form.Label>
-              <Form.Select id="categories" onChange={(e) => handleOnSelect(e, setCategory)}>
-                <option id="">Select your quizzia ground!</option>
-                {categories.map(cat => <option key={cat.name + cat.id} id={cat.id}>{cat.name}</option>)}
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group  className='w-50 mx-auto text-center'>
+            <Form.Group  className='w-25 mx-auto text-center'>
               <Form.Label htmlFor='type'>Type of quiz</Form.Label>
-              <Form.Select id="type">
+              <Form.Select id="type" onChange={(e) => handleOnSelect(e, setType)}>
+                <option id="">Any Type</option>
                 <option id='multiple'>Multiple Choice</option>
                 <option id='boolean'>True or False</option>
               </Form.Select>
             </Form.Group>
 
-            <Button className='w-25 mx-auto mt-2 d-block'>Get your quiz on</Button>
+            <Button className='w-25 mx-auto mt-2 d-block' type='submit'>Get your quiz on</Button>
           </Form>
         </Card>
       </Container>
