@@ -12,8 +12,14 @@ const QuizGame = ({ categories }) => {
    * There will be quiz cards
    * Options for quizzes?
    * Let the use know if they got the answer right/wrong and display a prompt with a random message
+   * 
+   * TODO:
+   *  Finish the endpoint and send back the data
+   *  Double check to see if the amount of questions is specified
+   *    => if amount is not specified, the response comes back empty
+   *  Think about the format of the game and how you want to navigate or show a new React Fragment
+   *    => conditional Rendering?
    */
-  // console.log(categories)
   const handleOnSelect = (e, setOption) => {
     const index = e.target.selectedIndex;
     const value = e.target.children[index].id;
