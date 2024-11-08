@@ -13,10 +13,6 @@ const QuizGame = ({ categories }) => {
    * There will be quiz cards
    * Options for quizzes?
    * Let the use know if they got the answer right/wrong and display a prompt with a random message
-   *  + import.meta.env.VITE_API_KEY
-   * 
-   * type === multiple or boolean
-   * amount => category => difficulty => type => api key
    */
   // console.log(categories)
   const handleOnSelect = (e, setOption) => {
@@ -28,6 +24,8 @@ const QuizGame = ({ categories }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(amount, difficulty, category, type);
+    // axios call here => with the values to build the string and api key
+    console.log(`${url}amount=${amount}&difficulty=${difficulty}&${category}=category&type=${type}&token=${import.meta.env.VITE_API_KEY}`);
   };
 
   return (
