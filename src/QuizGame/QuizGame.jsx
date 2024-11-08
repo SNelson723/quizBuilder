@@ -52,7 +52,7 @@ const QuizGame = ({ categories }) => {
               </Form.Select>
             </Form.Group>
 
-            <Form.Group  className='w-50 mx-auto text-center'>
+            <Form.Group className='w-50 mx-auto text-center'>
               <Form.Label htmlFor='categories'>Categories</Form.Label>
               <Form.Select id="categories" onChange={(e) => handleOnSelect(e, setCategory)}>
                 <option id="">Select your quizzia ground!</option>
@@ -60,10 +60,12 @@ const QuizGame = ({ categories }) => {
               </Form.Select>
             </Form.Group>
 
-            <Form.Group>
-              <Form.Label>Type of quiz</Form.Label>
-              <option id='multiple'>Multiple Choice</option>
-              <option id='boolean'>True or False</option>
+            <Form.Group  className='w-50 mx-auto text-center'>
+              <Form.Label htmlFor='type'>Type of quiz</Form.Label>
+              <Form.Select id="type">
+                <option id='multiple'>Multiple Choice</option>
+                <option id='boolean'>True or False</option>
+              </Form.Select>
             </Form.Group>
 
             <Button className='w-25 mx-auto mt-2 d-block'>Get your quiz on</Button>
