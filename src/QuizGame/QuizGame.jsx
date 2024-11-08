@@ -15,6 +15,7 @@ const QuizGame = ({ categories }) => {
    * Let the use know if they got the answer right/wrong and display a prompt with a random message
    *  + import.meta.env.VITE_API_KEY
    * 
+   * type === multiple or boolean
    * amount => category => difficulty => type => api key
    */
   // console.log(categories)
@@ -23,7 +24,10 @@ const QuizGame = ({ categories }) => {
     const value = e.target.children[index].id;
     setOption(value);
   };
-  console.log(difficulty, category, amount)
+
+  const handleSubmit = () => {
+    console.log(amount, difficulty, category, type);
+  };
 
   return (
     <>
@@ -31,7 +35,7 @@ const QuizGame = ({ categories }) => {
       <p>{url}</p>
       <Container className="w-50">
         <Card className='p-2'>
-          <Form id="quizOptionForm">
+          <Form id="quizOptionForm" onSubmit={handleSubmit}>
 
             <Form.Group className='w-25 mx-auto text-center'>
               <Form.Label>Number of Questions</Form.Label>
@@ -56,8 +60,14 @@ const QuizGame = ({ categories }) => {
               </Form.Select>
             </Form.Group>
 
+            <Form.Group>
+              <Form.Label>Type of quiz</Form.Label>
+              <option id='multiple'>Multiple Choice</option>
+              <option id='boolean'>True or False</option>
+            </Form.Group>
+
+            <Button className='w-25 mx-auto mt-2 d-block'>Get your quiz on</Button>
           </Form>
-          <Button className='w-25 mx-auto'>Get your quiz on</Button>
         </Card>
       </Container>
     </>
