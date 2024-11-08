@@ -1,14 +1,13 @@
-/* eslint-disable react/prop-types */
+
 import { Form, Container, Card, Button }from 'react-bootstrap';
 
-const difficulties = []
 const QuizGame = ({ quizUrl, categories}) => {
   /**
    * There will be quiz cards
    * Options for quizzes?
    * Let the use know if they got the answer right/wrong and display a prompt with a random message
    */
-  // console.log(categories)
+  const finalUrl = quizUrl;
 
   return (
     <>
@@ -26,7 +25,13 @@ const QuizGame = ({ quizUrl, categories}) => {
               </Form.Group>
 
               <Form.Group>
-                <Form.Label></Form.Label>
+                <Form.Label htmlFor="difficulties">Difficulty</Form.Label>
+                <Form.Select>
+                  <option>Any Difficulty</option>
+                  <option>Easy</option>
+                  <option>Medium</option>
+                  <option>Hard</option>
+                </Form.Select>
               </Form.Group>
             </Form.Group>
           </Form>
