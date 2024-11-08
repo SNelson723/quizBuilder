@@ -18,11 +18,38 @@ const clientPath = path.resolve(__dirname, '../dist');
 app.use(express.static(clientPath));
 
 // General api endpoints
-app.get('/getQuiz', (req, res) => {
-  const { url, amount, difficulty, category, type , api_key } = req.query;
-  console.log(url, amount, difficulty, category, type, api_key);
-  const finalUrl = `${url}amount=${amount}&difficulty=${difficulty}&category=${category}&type=${type}&token=${api_key}`;
-  res.send("Working on it")
+app.get('/getQuiz', async (req, res) => {
+  let hasAppended = false;
+  let finalUrl = '';
+
+  for (const key in req.query) {
+    if (req.query[key]) {
+
+      if (!hasAppended && key !== 'url') {
+        finalUrl += `${key}=${req.query[key]}`;
+        hasAppended = true;
+
+      } else if (key === 'url') {
+        finalUrl = req.query[key];
+
+      } else {
+        if (key === 'api_key') {
+          finalUrl += `&token=${req.query[key]}`;
+        } else {
+          finalUrl += `&${key}=${req.query[key]}`;
+        }
+      }
+    }
+  }
+
+  try {
+    console.log(finalUrl);
+    const { data } = await axios.get(finalUrl);
+    console.log(data);
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(404).send(error);
+  }
 });
 
 viteExpress.listen(app, PORT, () => {console.log(`Server is listening at ${PORT}`)});
