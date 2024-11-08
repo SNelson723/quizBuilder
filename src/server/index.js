@@ -3,6 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import viteExpress from 'vite-express';
+import axios from 'axios';
 
 const app = express();
 app.use(cors());
@@ -18,7 +19,10 @@ app.use(express.static(clientPath));
 
 // General api endpoints
 app.get('/getQuiz', (req, res) => {
-  console.log(req.query)
+  const { url, amount, difficulty, category, type , api_key } = req.query;
+  console.log(url, amount, difficulty, category, type, api_key);
+  const finalUrl = `${url}amount=${amount}&difficulty=${difficulty}&category=${category}&type=${type}&token=${api_key}`;
+  res.send("Working on it")
 });
 
 viteExpress.listen(app, PORT, () => {console.log(`Server is listening at ${PORT}`)});

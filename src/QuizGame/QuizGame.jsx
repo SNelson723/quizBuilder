@@ -4,7 +4,6 @@ import { Form, Container, Card, Button }from 'react-bootstrap';
 import axios from 'axios';
 
 const QuizGame = ({ categories }) => {
-  const [url, setUrl] = useState(import.meta.env.VITE_TRIVIA_API);
   const [amount, setAmount] = useState('');
   const [difficulty, setDifficulty] = useState('');
   const [category, setCategory] = useState('');
@@ -21,30 +20,28 @@ const QuizGame = ({ categories }) => {
     setOption(value);
   };
 
-  const testing = async () => {
-    const { data } = await axios('/test');
-    console.log(data);
-  };
-  testing();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(amount, difficulty, category, type);
-    // axios call here => with the values to build the string and api key
-    console.log(`${url}amount=${amount}&difficulty=${difficulty}&${category}=category&type=${type}&token=${import.meta.env.VITE_API_KEY}`);
-    const { data } = await axios('/getQuiz', { options: {
-      amount: amount,
-      difficulty: difficulty,
-      category: category,
-      type: type,
-      api_key: import.meta.env.VITE_API_KEY}});
-    console.log(data);
+    try {
+      const { data } = await axios.get('/getQuiz', {
+        params: {
+          url: import.meta.env.VITE_TRIVIA_API,
+          amount: amount,
+          difficulty: difficulty,
+          category: category,
+          type: type,
+          api_key: import.meta.env.VITE_API_KEY
+        }
+      });
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching quiz data:", error);
+    }
   };
 
   return (
     <>
       <h1 className="text-center">QuizGame</h1>
-      <p>{url}</p>
       <Container className="w-50">
         <Card className='p-2'>
           <Form id="quizOptionForm" onSubmit={handleSubmit}>
