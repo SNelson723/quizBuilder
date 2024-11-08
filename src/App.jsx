@@ -7,9 +7,6 @@ import axios from 'axios'
 
 const App = () => {
   const [categories, setCategories] = useState([]);
-  const queryLink = import.meta.env.VITE_TRIVIA_API;
-  const api_key = import.meta.env.VITE_API_KEY;
-  const baseUrl = queryLink + api_key;
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -23,7 +20,7 @@ const App = () => {
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route index element={<Home />} />
-        <Route path="game" element={<QuizGame quizUrl={baseUrl} categories={categories} />} />
+        <Route path="game" element={<QuizGame categories={categories} />} />
       </Route>
     )
   );

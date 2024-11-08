@@ -1,13 +1,20 @@
 
 import { Form, Container, Card, Button }from 'react-bootstrap';
+import axios from 'axios';
 
-const QuizGame = ({ quizUrl, categories}) => {
+const QuizGame = ({ categories }) => {
+  const queryLink = import.meta.env.VITE_TRIVIA_API;
+  const api_key = import.meta.env.VITE_API_KEY;
   /**
    * There will be quiz cards
    * Options for quizzes?
    * Let the use know if they got the answer right/wrong and display a prompt with a random message
    */
-  const finalUrl = quizUrl;
+  // const finalUrl = quizUrl;
+  console.log(finalUrl);
+  const handleDifficultySelect = (e) => {
+
+  };
 
   return (
     <>
