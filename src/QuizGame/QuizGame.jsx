@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Form, Container, Card, Button }from 'react-bootstrap';
 import axios from 'axios';
 
+const numbers = [5, 10, 15, 20, 25];
 const QuizGame = ({ categories }) => {
   const [amount, setAmount] = useState('');
   const [difficulty, setDifficulty] = useState('');
@@ -15,7 +16,8 @@ const QuizGame = ({ categories }) => {
    * 
    * TODO:
    *  Finish the endpoint and send back the data
-   *  Double check to see if the amount of questions is specified
+   *  Double check to see if the amount of questions is specified or just turn it into a select with 5 as the minimum?
+   *  Could also add a randomizer for random questions to challenge friends with
    *    => if amount is not specified, the response comes back empty
    *  Think about the format of the game and how you want to navigate or show a new React Fragment
    *    => conditional Rendering?
@@ -39,7 +41,7 @@ const QuizGame = ({ categories }) => {
           api_key: import.meta.env.VITE_API_KEY
         }
       });
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.error("Error fetching quiz data:", error);
     }
@@ -61,8 +63,11 @@ const QuizGame = ({ categories }) => {
             </Form.Group>
 
             <Form.Group className='w-25 mx-auto text-center'>
-              <Form.Label>Number of Questions</Form.Label>
-              <Form.Control type="number" value={amount} onChange={(e) => setAmount(e.target.value)}></Form.Control>
+              <Form.Label htmlFor='amount'>Number of Questions</Form.Label>
+              <Form.Select id='amount' onChange={(e) => handleOnSelect(e, setAmount)}>
+                {numbers.map((num, i) => <option key={num + i}>{num}</option>)}
+              </Form.Select>
+              {/* <Form.Control type="number" value={amount} onChange={(e) => setAmount(e.target.value)}></Form.Control> */}
             </Form.Group>
 
             <Form.Group className='w-25 mx-auto text-center'>
