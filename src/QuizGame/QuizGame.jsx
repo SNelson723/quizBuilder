@@ -5,6 +5,7 @@ import axios from 'axios';
 import QuizCards from './QuizCards';
 
 const numbers = [5, 10, 15, 20, 25];
+
 const QuizGame = ({ categories }) => {
   const [amount, setAmount] = useState('5');
   const [difficulty, setDifficulty] = useState('');
@@ -18,8 +19,6 @@ const QuizGame = ({ categories }) => {
    * Let the use know if they got the answer right/wrong and display a prompt with a random message
    * 
    * TODO:
-   *  Finish the endpoint and send back the data
-   *  Double check to see if the amount of questions is specified or just turn it into a select with 5 as the minimum?
    *  Could also add a randomizer for random questions to challenge friends with
    *    => if amount is not specified, the response comes back empty
    *  Think about the format of the game and how you want to navigate or show a new React Fragment
@@ -73,7 +72,6 @@ const QuizGame = ({ categories }) => {
                 <Form.Select id='amount' onChange={(e) => handleOnSelect(e, setAmount)}>
                   {numbers.map((num, i) => <option key={num + i} id={num}>{num}</option>)}
                 </Form.Select>
-                {/* <Form.Control type="number" value={amount} onChange={(e) => setAmount(e.target.value)}></Form.Control> */}
               </Form.Group>
 
               <Form.Group className='w-25 mx-auto text-center'>
