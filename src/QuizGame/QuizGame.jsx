@@ -2,13 +2,16 @@
 import { useState, useEffect } from 'react';
 import { Form, Container, Card, Button }from 'react-bootstrap';
 import axios from 'axios';
+import QuizCards from './QuizCards';
 
 const numbers = [5, 10, 15, 20, 25];
 const QuizGame = ({ categories }) => {
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState('5');
   const [difficulty, setDifficulty] = useState('');
   const [category, setCategory] = useState('');
   const [type, setType] = useState('');
+  const [cards, setCards] = useState([]);
+  const [isPlaying, setIsPlaying] = useState(false);
   /**
    * There will be quiz cards
    * Options for quizzes?
@@ -31,6 +34,7 @@ const QuizGame = ({ categories }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+
       const { data } = await axios.get('/getQuiz', {
         params: {
           url: import.meta.env.VITE_TRIVIA_API,
@@ -41,7 +45,8 @@ const QuizGame = ({ categories }) => {
           api_key: import.meta.env.VITE_API_KEY
         }
       });
-      // console.log(data);
+      setCards(data.results);
+      setIsPlaying(true);
     } catch (error) {
       console.error("Error fetching quiz data:", error);
     }
@@ -49,50 +54,55 @@ const QuizGame = ({ categories }) => {
 
   return (
     <>
-      <h1 className="text-center">QuizGame</h1>
-      <Container className="w-50">
-        <Card className='p-2'>
-          <Form id="quizOptionForm" onSubmit={handleSubmit}>
+      <div id="quizBuilder" hidden={isPlaying}>
+        <h1 className="text-center">QuizGame</h1>
+        <Container className="w-50">
+          <Card className='p-2'>
+            <Form id="quizOptionForm" onSubmit={handleSubmit}>
 
-            <Form.Group className='w-50 mx-auto text-center'>
-              <Form.Label htmlFor='categories'>Categories</Form.Label>
-              <Form.Select id="categories" onChange={(e) => handleOnSelect(e, setCategory)}>
-                <option id="">Select your quizzia ground!</option>
-                {categories.map(cat => <option key={cat.name + cat.id} id={cat.id}>{cat.name}</option>)}
-              </Form.Select>
-            </Form.Group>
+              <Form.Group className='w-50 mx-auto text-center'>
+                <Form.Label htmlFor='categories'>Categories</Form.Label>
+                <Form.Select id="categories" onChange={(e) => handleOnSelect(e, setCategory)}>
+                  <option id="">Select your quizzia ground!</option>
+                  {categories.map(cat => <option key={cat.name + cat.id} id={cat.id}>{cat.name}</option>)}
+                </Form.Select>
+              </Form.Group>
 
-            <Form.Group className='w-25 mx-auto text-center'>
-              <Form.Label htmlFor='amount'>Number of Questions</Form.Label>
-              <Form.Select id='amount' onChange={(e) => handleOnSelect(e, setAmount)}>
-                {numbers.map((num, i) => <option key={num + i}>{num}</option>)}
-              </Form.Select>
-              {/* <Form.Control type="number" value={amount} onChange={(e) => setAmount(e.target.value)}></Form.Control> */}
-            </Form.Group>
+              <Form.Group className='w-25 mx-auto text-center'>
+                <Form.Label htmlFor='amount'>Number of Questions</Form.Label>
+                <Form.Select id='amount' onChange={(e) => handleOnSelect(e, setAmount)}>
+                  {numbers.map((num, i) => <option key={num + i} id={num}>{num}</option>)}
+                </Form.Select>
+                {/* <Form.Control type="number" value={amount} onChange={(e) => setAmount(e.target.value)}></Form.Control> */}
+              </Form.Group>
 
-            <Form.Group className='w-25 mx-auto text-center'>
-              <Form.Label htmlFor="difficulties">Difficulty</Form.Label>
-              <Form.Select id="difficulties" onChange={(e) => handleOnSelect(e, setDifficulty)}>
-                <option id="">Any Difficulty</option>
-                <option id="easy">Easy</option>
-                <option id="medium">Medium</option>
-                <option id="hard">Hard</option>
-              </Form.Select>
-            </Form.Group>
+              <Form.Group className='w-25 mx-auto text-center'>
+                <Form.Label htmlFor="difficulties">Difficulty</Form.Label>
+                <Form.Select id="difficulties" onChange={(e) => handleOnSelect(e, setDifficulty)}>
+                  <option id="">Any Difficulty</option>
+                  <option id="easy">Easy</option>
+                  <option id="medium">Medium</option>
+                  <option id="hard">Hard</option>
+                </Form.Select>
+              </Form.Group>
 
-            <Form.Group  className='w-25 mx-auto text-center'>
-              <Form.Label htmlFor='type'>Type of quiz</Form.Label>
-              <Form.Select id="type" onChange={(e) => handleOnSelect(e, setType)}>
-                <option id="">Any Type</option>
-                <option id='multiple'>Multiple Choice</option>
-                <option id='boolean'>True or False</option>
-              </Form.Select>
-            </Form.Group>
+              <Form.Group  className='w-25 mx-auto text-center'>
+                <Form.Label htmlFor='type'>Type of quiz</Form.Label>
+                <Form.Select id="type" onChange={(e) => handleOnSelect(e, setType)}>
+                  <option id="">Any Type</option>
+                  <option id='multiple'>Multiple Choice</option>
+                  <option id='boolean'>True or False</option>
+                </Form.Select>
+              </Form.Group>
 
-            <Button className='w-25 mx-auto mt-2 d-block' type='submit'>Get your quiz on</Button>
-          </Form>
-        </Card>
-      </Container>
+              <Button className='w-25 mx-auto mt-2 d-block' type='submit'>Get your quiz on</Button>
+            </Form>
+          </Card>
+        </Container>
+      </div>
+      <div id="quizCards">
+        <QuizCards cards={cards} hidden={!isPlaying} />
+      </div>
     </>
   );
 };
