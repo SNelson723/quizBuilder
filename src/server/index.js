@@ -43,9 +43,9 @@ app.get('/getQuiz', async (req, res) => {
   }
 
   try {
-    console.log(finalUrl);
+    // console.log(finalUrl);
     const { data } = await axios.get(finalUrl);
-    console.log(data);
+    console.log(data.results);
     res.status(200).send(data);
   } catch (error) {
     res.status(404).send(error);

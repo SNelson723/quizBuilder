@@ -13,6 +13,7 @@ const QuizGame = ({ categories }) => {
   const [type, setType] = useState('');
   const [cards, setCards] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [categoryHeader, setCategoryHeader] = useState('');
   /**
    * There will be quiz cards
    * Options for quizzes?
@@ -24,10 +25,11 @@ const QuizGame = ({ categories }) => {
    *  Think about the format of the game and how you want to navigate or show a new React Fragment
    *    => conditional Rendering?
    */
-  const handleOnSelect = (e, setOption) => {
+  const handleOnSelect = (e, setOption, setHeader = null) => {
     const index = e.target.selectedIndex;
     const value = e.target.children[index].id;
     setOption(value);
+    if (setHeader) setHeader(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -61,7 +63,7 @@ const QuizGame = ({ categories }) => {
 
               <Form.Group className='w-50 mx-auto text-center'>
                 <Form.Label htmlFor='categories'>Categories</Form.Label>
-                <Form.Select id="categories" onChange={(e) => handleOnSelect(e, setCategory)}>
+                <Form.Select id="categories" onChange={(e) => handleOnSelect(e, setCategory, setCategoryHeader)}>
                   <option id="">Select your quizzia ground!</option>
                   {categories.map(cat => <option key={cat.name + cat.id} id={cat.id}>{cat.name}</option>)}
                 </Form.Select>
@@ -99,7 +101,7 @@ const QuizGame = ({ categories }) => {
         </Container>
       </div>
       <div id="quizCards">
-        <QuizCards cards={cards} hidden={!isPlaying} />
+        <QuizCards cards={cards} header={categoryHeader} hidden={!isPlaying} />
       </div>
     </>
   );
