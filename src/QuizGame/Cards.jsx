@@ -6,6 +6,8 @@ const decodeHTMLEntities = (text) => {
   return dom.documentElement.textContent;
 }
 
+const successGreen = '#52b963';
+const failureRed = '#c44240';
 
 const Cards = ({ card }) => {
   let answers = [...card.incorrect_answers, card.correct_answer];
