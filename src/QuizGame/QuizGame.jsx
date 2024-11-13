@@ -15,8 +15,6 @@ const QuizGame = ({ categories }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [categoryHeader, setCategoryHeader] = useState('');
   /**
-   * There will be quiz cards
-   * Options for quizzes?
    * Let the use know if they got the answer right/wrong and display a prompt with a random message
    * 
    * TODO:
