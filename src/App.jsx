@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import NavBar from './NavBar.jsx';
 import Home from './Home.jsx';
 import QuizGame from './QuizGame/QuizGame.jsx';
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements, Outlet } from "react-router-dom";
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements, Outlet, useLoaderData } from "react-router-dom";
 import axios from 'axios';
+import Login from './Login';
 
 const App = () => {
   const [categories, setCategories] = useState([]);
@@ -16,32 +17,39 @@ const App = () => {
     fetchCategories();
   }, []);
 
+  const getUserLoader = async () => {
+    try {
+      const response = await axios.get('/api/current-user');
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      throw (err);
+    }
+  };
+  // need loader to pass to private routes to check if user is logged in
+  const isLoggedInLoader = async () => {
+    try {
+      // send a get req to the isLoggedIn endpoint
+      const response = await axios.get('/api/isLoggedIn');
+      // console.log('logged in loader', response.data);
+      // return the response data which is a boolean
+      return response.data;
+      // catch error handling
+    } catch (err) {
+      console.error(err);
+      throw (err);
+    }
+  };
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
-        <Route index element={<Home />} />
+        <Route index element={<Login />} />
+        <Route path="home" element={<Home />} loader={getUserLoader} />
         <Route path="game" element={<QuizGame categories={categories} />} />
       </Route>
     )
   );
-
-  const handleLoginSuccess = async (credentialResponse) => {
-    window.location.href = '/auth/google';
-    console.log('Login Success:', credentialResponse);
-    // Send the token to your server for verification
-    try {
-      const response = await axios.post('/auth/google', {
-        id_token: credentialResponse.credential,
-      });
-      console.log(response.data); // Handle successful response
-    } catch (error) {
-      console.error('Error during authentication:', error);
-    }
-  };
-
-  const handleLoginFailure = (error) => {
-    console.log('Login failed:', error);
-  };
 
   return <RouterProvider router={router} />;
 };

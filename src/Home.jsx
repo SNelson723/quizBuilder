@@ -1,4 +1,5 @@
-// import axios from 'axios';
+import axios from 'axios';
+import { useLoaderData } from 'react-router-dom';
 
 const Home = () => {
   /**

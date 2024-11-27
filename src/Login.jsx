@@ -1,16 +1,14 @@
-import { GoogleLogin } from '@react-oauth/google';
+import { Button } from 'react-bootstrap';
 
 const Login = () => {
 
+  const authHandle = () => {
+    window.location.href = '/auth/google';
+  };
   return (
-  <GoogleLogin
-    onSuccess={credentialResponse => {
-      console.log(credentialResponse);
-    }}
-    onError={() => {
-      console.log('Login Failed');
-    }}
-  />
+  <>
+    <Button onClick={authHandle}>Login with Google</Button>
+  </>
   );
 };
 

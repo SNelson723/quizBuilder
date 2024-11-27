@@ -8,7 +8,7 @@ import axios from 'axios';
 import passport from './auth.js';
 import dotenv from 'dotenv';
 import { sequelize, User } from './db/index.js';
-// import session from 'express-session'; // Import express-session
+import session from 'express-session';
 
 dotenv.config();
 
@@ -18,7 +18,17 @@ const PORT = 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-// app.use(passport.initialize());
+
+// Configure express-session middleware
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'quizzia', // Use a secure secret in production
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Static file serving
 const __filename = fileURLToPath(import.meta.url);
@@ -30,7 +40,7 @@ app.use(express.static(clientPath));
 app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
 
 app.get('/auth/google/callback', passport.authenticate('google', {
-  successRedirect: '/auth/google/success',
+  successRedirect: '/home',
   failureRedirect: '/auth/google/failure'
 }));
 
