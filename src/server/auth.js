@@ -16,6 +16,8 @@ async (request, accessToken, refreshToken, profile, done) => {
   try {
     // console.log(profile);
     // Use findOrCreate with the correct structure
+
+    // START HERE AND MOVE THIS TO THE HOME PAGE SO THE DATA WILL PERSIST
     const user = await User.findOrCreate({
       where: { googleId: profile.id },
       defaults: {
