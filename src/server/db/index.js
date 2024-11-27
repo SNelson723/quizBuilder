@@ -44,11 +44,15 @@ const User = db.define('User', {
   image_url: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
 });
 
 // Synchronize the models with the database
-db.sync({ force: true })
+db.sync({alter: true})
   .then(() => {
     console.log('Database synchronized');
   })

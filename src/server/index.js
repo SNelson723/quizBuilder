@@ -57,10 +57,20 @@ app.get('/api/isloggedin', (req, res) => {
   }
 });
 
-app.get('/api/current-user', (req, res) => {
+app.get('/api/current-user', async (req, res) => {
   if (req.user) {
-    // Assuming req.user contains the user object populated by Passport
-    res.send(req.user);
+    const user = await User.findOrCreate({
+      where: { googleId: req.user.id },
+      defaults: {
+        firstName: req.user.name.givenName,
+        lastName: req.user.name.familyName,
+        userName: req.user.displayName,
+        googleId: req.user.id,
+        image_url: req.user.picture,
+        email: req.user.email
+      }
+    });
+    res.status(200).send(user);
   } else {
     res.status(401).json({ message: 'User not authenticated' });
   }
