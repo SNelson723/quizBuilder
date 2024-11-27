@@ -48,7 +48,7 @@ const App = () => {
       <RouterProvider router={router} />
       <GoogleLogin
         onSuccess={handleLoginSuccess}
-        onFailure={handleLoginFailure}
+        onError={handleLoginFailure}
         style={{ marginTop: '20px' }} // Optional styling
       />
     </GoogleOAuthProvider>
