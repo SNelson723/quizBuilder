@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import passport from 'passport';
 import dotenv from 'dotenv';
+import { sequelize, User } from './db/index.js';
 
 dotenv.config();
 
@@ -18,20 +19,26 @@ app.use(cors());
 app.use(express.json());
 app.use(passport.initialize());
 
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+  next();
+});
+
 // Passport Google Strategy
-// passport.use(new GoogleStrategy({
-//     clientID: import.meta.process.env.VITE_GOOGLE_CLIENT_ID,
-//     clientSecret: import.meta.process.env.VITE_GOOGLE_CLIENT_SECRET,
-//     callbackURL: "http://localhost:3000/auth/google/callback",
-//     passReqToCallback: true
-//   },
-//   (request, accessToken, refreshToken, profile, done) => {
-//     // Replace this with your user creation/finding logic
-//     User.findOrCreate({ googleId: profile.id }, (err, user) => {
-//       return done(err, user);
-//     });
-//   }
-// ));
+passport.use(new GoogleStrategy({
+    clientID: process.env.VITE_GOOGLE_CLIENT_ID,
+    clientSecret: process.env.VITE_GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/auth/google/callback",
+    passReqToCallback: true
+  },
+  (request, accessToken, refreshToken, profile, done) => {
+    // Replace this with your user creation/finding logic
+    User.findOrCreate({ googleId: profile.id }, (err, user) => {
+      return done(err, user);
+    });
+  }
+));
 
 // Static file serving
 const __filename = fileURLToPath(import.meta.url);
@@ -40,12 +47,12 @@ const clientPath = path.resolve(__dirname, '../dist');
 app.use(express.static(clientPath));
 
 // Google OAuth routes
-// app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
+app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
 
-// app.get('/auth/google/callback', passport.authenticate('google', {
-//   successRedirect: '/auth/google/success',
-//   failureRedirect: '/auth/google/failure'
-// }));
+app.get('/auth/google/callback', passport.authenticate('google', {
+  successRedirect: '/auth/google/success',
+  failureRedirect: '/auth/google/failure'
+}));
 
 // General api endpoints
 app.get('/getQuiz', async (req, res) => {
