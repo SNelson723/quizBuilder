@@ -36,6 +36,10 @@ const User = db.define('User', {
   user_name: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  googleId: { // Ensure this field exists
+    type: DataTypes.STRING,
+    allowNull: false, // or true, depending on your requirements
   }
 });
 

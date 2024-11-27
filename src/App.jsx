@@ -27,6 +27,7 @@ const App = () => {
   );
 
   const handleLoginSuccess = async (credentialResponse) => {
+    window.location.href = '/auth/google';
     console.log('Login Success:', credentialResponse);
     // Send the token to your server for verification
     try {
@@ -48,8 +49,7 @@ const App = () => {
       <RouterProvider router={router} />
       <GoogleLogin
         onSuccess={handleLoginSuccess}
-        onError={handleLoginFailure}
-        style={{ marginTop: '20px' }} // Optional styling
+        onFailure={handleLoginFailure}
       />
     </GoogleOAuthProvider>
   );

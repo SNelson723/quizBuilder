@@ -8,6 +8,7 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import passport from 'passport';
 import dotenv from 'dotenv';
 import { sequelize, User } from './db/index.js';
+import session from 'express-session'; // Import express-session
 
 dotenv.config();
 
@@ -16,32 +17,47 @@ const PORT = 3000;
 
 // Middleware
 // app.use(cors());
-app.use(cors({
-  origin: 'http://localhost:3000', // Adjust this if necessary
-  credentials: true,
-}));
-app.use(express.json());
-app.use(passport.initialize());
+// app.use(express.json());
+// app.use(passport.initialize());
 
-app.use((req, res, next) => {
-  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
-  next();
-});
+app.use(cors());
+app.use(passport.initialize());
+app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+app.use(passport.session());
+app.use(express.json());
+
+// app.use((req, res, next) => {
+//   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+//   res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+//   next();
+// });
+
+// console.log(process.env.VITE_GOOGLE_CLIENT_ID, process.env.VITE_GOOGLE_CLIENT_SECRET)
 
 // Passport Google Strategy
 passport.use(new GoogleStrategy({
-    clientID: process.env.VITE_GOOGLE_CLIENT_ID,
-    clientSecret: process.env.VITE_GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback",
-    passReqToCallback: true
-  },
-  (request, accessToken, refreshToken, profile, done) => {
-    // Replace this with your user creation/finding logic
-    User.findOrCreate({ googleId: profile.id }, (err, user) => {
-      return done(err, user);
+  clientID: process.env.VITE_GOOGLE_CLIENT_ID,
+  clientSecret: process.env.VITE_GOOGLE_CLIENT_SECRET,
+  callbackURL: "http://localhost:3000/auth/google/callback",
+  passReqToCallback: true
+},
+async (request, accessToken, refreshToken, profile, done) => {
+  try {
+    // Use findOrCreate with the correct structure
+    const [user, created] = await User.findOrCreate({
+      where: { googleId: profile.id }, // This is the 'where' clause
+      defaults: { // This is the 'defaults' clause
+        firstName: profile.name.givenName,
+        lastName: profile.name.familyName,
+        user_name: profile.displayName,
+      }
     });
+
+    return done(null, user);
+  } catch (err) {
+    return done(err);
   }
+}
 ));
 
 // Static file serving
@@ -57,6 +73,12 @@ app.get('/auth/google/callback', passport.authenticate('google', {
   successRedirect: '/auth/google/success',
   failureRedirect: '/auth/google/failure'
 }));
+
+// temp user routes
+app.get('/users', async (req, res) => {
+  const users = await User.findAll();
+  res.status(200).send(users);
+});
 
 // General api endpoints
 app.get('/getQuiz', async (req, res) => {
