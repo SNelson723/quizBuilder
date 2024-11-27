@@ -16,23 +16,13 @@ const app = express();
 const PORT = 3000;
 
 // Middleware
-// app.use(cors());
-// app.use(express.json());
-// app.use(passport.initialize());
-
 app.use(cors());
 app.use(passport.initialize());
+
+// START HERE!!!! => get this set up then see if you can get the Google OAuth to work
 app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 app.use(passport.session());
 app.use(express.json());
-
-// app.use((req, res, next) => {
-//   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-//   res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
-//   next();
-// });
-
-// console.log(process.env.VITE_GOOGLE_CLIENT_ID, process.env.VITE_GOOGLE_CLIENT_SECRET)
 
 // Passport Google Strategy
 passport.use(new GoogleStrategy({
@@ -74,7 +64,7 @@ app.get('/auth/google/callback', passport.authenticate('google', {
   failureRedirect: '/auth/google/failure'
 }));
 
-// temp user routes
+// temp user routes => move these to their own files before you overcrowd this file
 app.get('/users', async (req, res) => {
   const users = await User.findAll();
   res.status(200).send(users);
