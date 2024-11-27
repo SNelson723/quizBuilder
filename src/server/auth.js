@@ -14,7 +14,7 @@ passport.use(new GoogleStrategy({
 },
 async (request, accessToken, refreshToken, profile, done) => {
   try {
-    console.log(profile);
+    // console.log(profile);
     // Use findOrCreate with the correct structure
     const user = await User.findOrCreate({
       where: { googleId: profile.id }, // This is the 'where' clause

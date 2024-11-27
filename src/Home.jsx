@@ -1,7 +1,14 @@
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLoaderData } from 'react-router-dom';
 
 const Home = () => {
+  const [userObj, setUserObj] = useState(useLoaderData())
+
+  useEffect(() => {
+    const user = userObj[0];
+    console.log('Home Page', user);
+  }, [userObj]);
   /**
    * TODO:
    * 1) Create a leaderboard with some hardcoded data

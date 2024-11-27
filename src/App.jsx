@@ -29,14 +29,24 @@ const App = () => {
     }
   };
 
+  const getUserLoader = async () => {
+    try {
+      const response = await axios.get('/api/current-user');
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      throw (err);
+    }
+  };
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
         <Route path="/" element={<Login />} /> {/* Login page */}
         <Route element={<PrivateRoutes />} loader={isLoggedInLoader}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/game" element={<QuizGame categories={categories} />} />
-          <Route path="/profile" element={<Profile />}>
+          <Route path="/home" element={<Home />} loader={getUserLoader} />
+          <Route path="/game" element={<QuizGame categories={categories} />} loader={getUserLoader} />
+          <Route path="/profile" element={<Profile />} loader={getUserLoader}>
           </Route>
           <Route path="/auth/google" element={<RedirectToGoogle />} /> {/* Redirect to Google OAuth */}
         </Route>

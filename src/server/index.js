@@ -40,9 +40,13 @@ app.use(express.static(clientPath));
 app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
 
 app.get('/auth/google/callback', passport.authenticate('google', {
-  successRedirect: '/home',
-  failureRedirect: '/auth/google/failure'
-}));
+  failureRedirect: '/auth/google/failure',
+}), (req, res) => {
+  // set the current user id
+  req.session.userId = req.user.id;
+  // console.log('User authenticated:', req.user); // Check if req.user is populated
+  res.redirect('/home'); // Redirect to home after successful login
+});
 
 //is logged in loader get end point
 app.get('/api/isloggedin', (req, res) => {
@@ -50,6 +54,15 @@ app.get('/api/isloggedin', (req, res) => {
     res.send(true);
   } else {
     res.send(false);
+  }
+});
+
+app.get('/api/current-user', (req, res) => {
+  if (req.user) {
+    // Assuming req.user contains the user object populated by Passport
+    res.send(req.user);
+  } else {
+    res.status(401).json({ message: 'User not authenticated' });
   }
 });
 
