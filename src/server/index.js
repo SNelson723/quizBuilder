@@ -4,44 +4,48 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import viteExpress from 'vite-express';
 import axios from 'axios';
-import GoogleStrategy from 'passport-google-oauth2'
+import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import passport from 'passport';
+import dotenv from 'dotenv';
 
+dotenv.config();
+
+const app = express();
+const PORT = 3000;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(passport.initialize());
+
+// Passport Google Strategy
 // passport.use(new GoogleStrategy({
-//     clientID:     import.meta.process.env.VITE_GOOGLE_CLIENT_ID,
+//     clientID: import.meta.process.env.VITE_GOOGLE_CLIENT_ID,
 //     clientSecret: import.meta.process.env.VITE_GOOGLE_CLIENT_SECRET,
 //     callbackURL: "http://localhost:3000/auth/google/callback",
-//     passReqToCallback   : true
+//     passReqToCallback: true
 //   },
 //   (request, accessToken, refreshToken, profile, done) => {
-//     User.findOrCreate({ googleId: profile.id }, function (err, user) {
+//     // Replace this with your user creation/finding logic
+//     User.findOrCreate({ googleId: profile.id }, (err, user) => {
 //       return done(err, user);
 //     });
 //   }
 // ));
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-const PORT = 3000;
-
+// Static file serving
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const clientPath = path.resolve(__dirname, '../dist');
 app.use(express.static(clientPath));
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope:
-      [ 'email', 'profile' ] }
-));
+// Google OAuth routes
+// app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
 
-app.get( '/auth/google/callback',
-    passport.authenticate( 'google', {
-        successRedirect: '/auth/google/success',
-        failureRedirect: '/auth/google/failure'
-}));
+// app.get('/auth/google/callback', passport.authenticate('google', {
+//   successRedirect: '/auth/google/success',
+//   failureRedirect: '/auth/google/failure'
+// }));
 
 // General api endpoints
 app.get('/getQuiz', async (req, res) => {
