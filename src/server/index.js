@@ -4,11 +4,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import viteExpress from 'vite-express';
 import axios from 'axios';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
-import passport from 'passport';
+// import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
+import passport from './auth.js';
 import dotenv from 'dotenv';
 import { sequelize, User } from './db/index.js';
-import session from 'express-session'; // Import express-session
+// import session from 'express-session'; // Import express-session
 
 dotenv.config();
 
@@ -17,38 +17,8 @@ const PORT = 3000;
 
 // Middleware
 app.use(cors());
-app.use(passport.initialize());
-
-// START HERE!!!! => get this set up then see if you can get the Google OAuth to work
-app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
-app.use(passport.session());
 app.use(express.json());
-
-// Passport Google Strategy
-passport.use(new GoogleStrategy({
-  clientID: process.env.VITE_GOOGLE_CLIENT_ID,
-  clientSecret: process.env.VITE_GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:3000/auth/google/callback",
-  passReqToCallback: true
-},
-async (request, accessToken, refreshToken, profile, done) => {
-  try {
-    // Use findOrCreate with the correct structure
-    const [user, created] = await User.findOrCreate({
-      where: { googleId: profile.id }, // This is the 'where' clause
-      defaults: { // This is the 'defaults' clause
-        firstName: profile.name.givenName,
-        lastName: profile.name.familyName,
-        user_name: profile.displayName,
-      }
-    });
-
-    return done(null, user);
-  } catch (err) {
-    return done(err);
-  }
-}
-));
+// app.use(passport.initialize());
 
 // Static file serving
 const __filename = fileURLToPath(import.meta.url);

@@ -4,7 +4,6 @@ import Home from './Home.jsx';
 import QuizGame from './QuizGame/QuizGame.jsx';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements, Outlet } from "react-router-dom";
 import axios from 'axios';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 const App = () => {
   const [categories, setCategories] = useState([]);
@@ -44,15 +43,7 @@ const App = () => {
     console.log('Login failed:', error);
   };
 
-  return (
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-      <RouterProvider router={router} />
-      <GoogleLogin
-        onSuccess={handleLoginSuccess}
-        onFailure={handleLoginFailure}
-      />
-    </GoogleOAuthProvider>
-  );
+  return <RouterProvider router={router} />;
 };
 
 // Root component to wrap the navbar and outlet
