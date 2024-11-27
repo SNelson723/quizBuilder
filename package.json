@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/server/index.js -w src/server",
+    "dev": "nodemon backend/server/index.js -w backend/server",
     "build": "vite build",
     "lint": "eslint .",
     "start": "cross-env NODE_ENV=production node src/server/index.js",

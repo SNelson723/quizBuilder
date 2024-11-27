@@ -94,6 +94,25 @@ app.get('/users', async (req, res) => {
   res.status(200).send(users);
 });
 
+// used only to seed users
+app.post('/seedUser', async (req, res) => {
+  console.log(req.body);
+  const { firstName, lastName, userName, googleId, image_url, email } = req.body;
+  const user = await User.findOrCreate({
+    where: { googleId: googleId },
+    defaults: {
+      firstName: firstName,
+      lastName: lastName,
+      userName: userName,
+      googleId: googleId,
+      image_url: image_url,
+      email: email
+    }
+  });
+  // console.log(user);
+  res.status(201).send("User created");
+});
+
 // General api endpoints
 app.get('/getQuiz', async (req, res) => {
   let hasAppended = false;
