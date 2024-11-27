@@ -37,14 +37,14 @@ const User = db.define('User', {
     type: DataTypes.STRING,
     allowNull: true
   },
-  googleId: { // Ensure this field exists
+  googleId: {
     type: DataTypes.STRING,
-    allowNull: false, // or true, depending on your requirements
+    allowNull: false,
   }
 });
 
 // Synchronize the models with the database
-db.sync({ force: true }) // Use force: true only in development
+db.sync({ force: true })
   .then(() => {
     console.log('Database synchronized');
   })

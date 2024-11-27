@@ -44,6 +44,15 @@ app.get('/auth/google/callback', passport.authenticate('google', {
   failureRedirect: '/auth/google/failure'
 }));
 
+//is logged in loader get end point
+app.get('/api/isloggedin', (req, res) => {
+  if (req.user) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
+});
+
 // temp user routes => move these to their own files before you overcrowd this file
 app.get('/users', async (req, res) => {
   const users = await User.findAll();

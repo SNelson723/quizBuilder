@@ -16,7 +16,7 @@ async (request, accessToken, refreshToken, profile, done) => {
   try {
     console.log(profile);
     // Use findOrCreate with the correct structure
-    const [user, created] = await User.findOrCreate({
+    const user = await User.findOrCreate({
       where: { googleId: profile.id }, // This is the 'where' clause
       defaults: { // This is the 'defaults' clause
         firstName: profile.name.givenName,
