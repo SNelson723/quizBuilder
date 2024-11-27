@@ -66,6 +66,27 @@ app.get('/api/current-user', (req, res) => {
   }
 });
 
+// app.get('/logout', (req, res, next) => {
+//   req.logout((err) => {
+//     if (err) return next(err);
+
+//     // Redirect to the login page or home page after logout
+//     res.redirect('/');
+//   });
+// });
+
+app.get('/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) console.error('Error logging out:', err);
+
+    // destroy the session
+    req.session.destroy((error) => {
+      if (error) console.error('Error destroying session:', error);
+      res.send('Logout successful');
+    });
+  });
+});
+
 // temp user routes => move these to their own files before you overcrowd this file
 app.get('/users', async (req, res) => {
   const users = await User.findAll();

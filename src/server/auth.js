@@ -17,12 +17,13 @@ async (request, accessToken, refreshToken, profile, done) => {
     // console.log(profile);
     // Use findOrCreate with the correct structure
     const user = await User.findOrCreate({
-      where: { googleId: profile.id }, // This is the 'where' clause
-      defaults: { // This is the 'defaults' clause
+      where: { googleId: profile.id },
+      defaults: {
         firstName: profile.name.givenName,
         lastName: profile.name.familyName,
-        user_name: profile.displayName,
-        googleId: profile.id
+        userName: profile.displayName,
+        googleId: profile.id,
+        image_url: profile.picture
       }
     });
 

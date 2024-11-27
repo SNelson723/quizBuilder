@@ -33,13 +33,17 @@ const User = db.define('User', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  user_name: {
+  userName: {
     type: DataTypes.STRING,
     allowNull: true
   },
   googleId: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  image_url: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 });
 
