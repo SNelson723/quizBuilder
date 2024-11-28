@@ -8,6 +8,7 @@ const Home = () => {
   useEffect(() => {
     const user = userObj[0];
     console.log('Home Page', user);
+    // This is only for seeding other data into the database without being able to use an actual seeder
     // for (let i = 0; i < fakeUsers.length; i++) {
     //   axios.post('/seedUser', fakeUsers[i]);
     // }
