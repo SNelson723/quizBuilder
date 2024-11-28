@@ -1,4 +1,18 @@
+/* body {
+  background-image: url("./Images/quizziaLogo.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-position-y: center;
+  background-size: cover;
+} */
+
 #answerButton {
   font-size: 14px;
   
 }
+
+#loginMain {
+  /* background-color: blue; */
+  /* height: 100vh; */
+}
+
