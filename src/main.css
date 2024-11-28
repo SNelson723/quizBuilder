@@ -16,3 +16,8 @@
   /* height: 100vh; */
 }
 
+#profileName {
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
