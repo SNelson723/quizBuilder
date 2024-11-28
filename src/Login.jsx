@@ -6,6 +6,7 @@ const Login = () => {
   const authHandle = () => {
     window.location.href = '/auth/google';
   };
+
   return (
   <>
     <Button onClick={authHandle}>Login with Google</Button>
