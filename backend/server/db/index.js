@@ -51,6 +51,31 @@ const User = db.define('User', {
   }
 });
 
+const UserScores = db.define('UserScore', {
+  scoreId: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false
+  },
+  userId: {
+    references: User.userId,
+    type: DataTypes.INTEGER
+  },
+  categoryName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  score: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  }
+});
+
+// Relationships
+// User.hasMany(UserScores);
+// UserScores.belongsTo(User)
+
 // Synchronize the models with the database
 db.sync({alter: true})
   .then(() => {
