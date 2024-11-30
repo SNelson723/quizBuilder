@@ -49,11 +49,15 @@ const User = db.define('User', {
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true
+    }
   }
 });
 
-const UserScores = db.define('UserScore', {
+const UserScore = db.define('UserScore', {
   scoreId: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -89,7 +93,7 @@ userId: {
   }
 });
 
-const Achievements = db.define('Achievement', {
+const Achievement = db.define('Achievement', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -115,12 +119,31 @@ const Achievements = db.define('Achievement', {
   }
 });
 
+const UserAchievements = db.define('UserAchievement', {
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  achievementId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  dateEarned: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: new Date()
+  }
+});
+
 // Relationships
-User.hasMany(UserScores, { foreignKey: 'userId' });
-UserScores.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(UserScore, { foreignKey: 'userId' });
+UserScore.belongsTo(User, { foreignKey: 'userId' });
 
 User.hasOne(Leaderboard, { foreignKey: 'userId'});
 Leaderboard.belongsTo(User, { foreignKey: 'userId'});
+
+User.hasMany(UserAchievements, { foreignKey: 'userId'});
+Achievement.hasMany(UserAchievements, {foreignKey: 'achievementId'});
 
 // Synchronize the models with the database
 db.sync({alter: true})
@@ -131,4 +154,10 @@ db.sync({alter: true})
     console.error('Error synchronizing database:', error);
   });
 
-  export { db as sequelize, User, UserScores, Leaderboard, Achievements };
+  export {
+    db as sequelize,
+    User,
+    UserScore,
+    Leaderboard,
+    Achievement
+  };
