@@ -58,10 +58,6 @@ const UserScores = db.define('UserScore', {
     autoIncrement: true,
     allowNull: false
   },
-  userId: {
-    references: User.userId,
-    type: DataTypes.INTEGER
-  },
   categoryName: {
     type: DataTypes.STRING,
     allowNull: false
@@ -69,12 +65,16 @@ const UserScores = db.define('UserScore', {
   score: {
     type: DataTypes.INTEGER,
     allowNull: false
+  },
+  userId: {  // Add this field
+    type: DataTypes.INTEGER,
+    allowNull: false
   }
 });
 
 // Relationships
-// User.hasMany(UserScores);
-// UserScores.belongsTo(User)
+User.hasMany(UserScores, { foreignKey: 'userId' });
+UserScores.belongsTo(User, { foreignKey: 'userId' });
 
 // Synchronize the models with the database
 db.sync({alter: true})
