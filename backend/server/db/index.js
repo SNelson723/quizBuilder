@@ -66,7 +66,22 @@ const UserScores = db.define('UserScore', {
     type: DataTypes.INTEGER,
     allowNull: false
   },
-  userId: {  // Add this field
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  }
+});
+
+const Leaderboard = db.define('Leaderboard', {
+  overallScore: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  topCategory: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+userId: {
     type: DataTypes.INTEGER,
     allowNull: false
   }
@@ -75,6 +90,9 @@ const UserScores = db.define('UserScore', {
 // Relationships
 User.hasMany(UserScores, { foreignKey: 'userId' });
 UserScores.belongsTo(User, { foreignKey: 'userId' });
+
+User.hasOne(Leaderboard, { foreignKey: 'userId'});
+Leaderboard.belongsTo(User, { foreignKey: 'userId'});
 
 // Synchronize the models with the database
 db.sync({alter: true})
@@ -86,4 +104,4 @@ db.sync({alter: true})
   });
 
 
-  export { db as sequelize, User };
+  export { db as sequelize, User, UserScores, Leaderboard };
