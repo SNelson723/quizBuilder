@@ -1,13 +1,15 @@
 import { Sequelize, DataTypes } from '@sequelize/core';
 import { PostgresDialect } from '@sequelize/postgres';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const db = new Sequelize({
   dialect: PostgresDialect,
-  database: 'quizzia',
-  user: 'postgres',
-  password: 'WojtekCircus4126!',
-  host: 'localhost',
-  port: 5432
+  database: process.env.VITE_DB_NAME,
+  user: process.env.VITE_DB_USER,
+  password: process.env.VITE_DB_PW,
+  host: process.env.VITE_DB_HOST,
+  port: process.env.VITE_DB_PORT
 });
 
 try {
@@ -87,6 +89,32 @@ userId: {
   }
 });
 
+const Achievements = db.define('Achievement', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  iconUrl: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  dateEarned: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: new Date()
+  }
+});
+
 // Relationships
 User.hasMany(UserScores, { foreignKey: 'userId' });
 UserScores.belongsTo(User, { foreignKey: 'userId' });
@@ -103,5 +131,4 @@ db.sync({alter: true})
     console.error('Error synchronizing database:', error);
   });
 
-
-  export { db as sequelize, User, UserScores, Leaderboard };
+  export { db as sequelize, User, UserScores, Leaderboard, Achievements };
