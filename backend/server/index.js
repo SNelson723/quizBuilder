@@ -4,7 +4,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import viteExpress from 'vite-express';
 import axios from 'axios';
-// import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import passport from './auth.js';
 import dotenv from 'dotenv';
 import { sequelize, User } from './db/index.js';

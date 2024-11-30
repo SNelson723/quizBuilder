@@ -105,5 +105,4 @@ const QuizGame = ({ categories }) => {
   );
 };
 
-
 export default QuizGame;
