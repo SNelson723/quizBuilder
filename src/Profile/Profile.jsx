@@ -9,6 +9,10 @@ const Profile = () => {
   const { userName, image_url, } = user[0];
   // console.log(user[0]);
 
+  const handleClick = () => {
+    console.log('clicked');
+  };
+
   if (!user) {
     return <div>Loading...</div>; // Show loading state while fetching
   }
@@ -36,10 +40,15 @@ const Profile = () => {
         <div style={{backgroundColor: 'gray'}}>
           <Card bg='white' className='w-25 p-2' style={{backgroundColor: 'white'}}>
             <Card.Title>About</Card.Title>
-            <Button>Add Bio</Button>
+            {/* <Button onClick={handleClick}>Add Bio</Button> */}
             <Card.Body>
               <ListGroup>
                 {/* Add bio stuff here =>text bio by user, location, favorite genre!!, occupation */}
+                {/* Move bio to the right of this, but first render a Add Bio button if there is no bio? */}
+                {/* <ListGroup.Item>Bio <span>Howdy</span></ListGroup.Item> */}
+                <ListGroup.Item>From</ListGroup.Item>
+                <ListGroup.Item>Favorite Genre</ListGroup.Item>
+                <ListGroup.Item>Occupation</ListGroup.Item>
               </ListGroup>
             </Card.Body>
           </Card>
