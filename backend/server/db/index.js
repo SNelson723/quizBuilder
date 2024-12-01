@@ -135,7 +135,7 @@ const UserAchievements = db.define('UserAchievement', {
   }
 });
 
-const QuizComment = db.define('QuizComments', {
+const QuizComments = db.define('QuizComment', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -172,7 +172,7 @@ const QuizComment = db.define('QuizComments', {
   }
 });
 
-const QuizCommentResponse = db.define('QuizCommentResponses', {
+const QuizCommentResponses = db.define('QuizCommentResponse', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -213,6 +213,9 @@ const QuizCommentResponse = db.define('QuizCommentResponses', {
   }
 });
 
+// Profile tables
+const UserProfiles = db.define('UserProfile')
+
 // Relationships
 User.hasMany(UserScore, { foreignKey: 'userId' });
 UserScore.belongsTo(User, { foreignKey: 'userId' });
@@ -223,13 +226,13 @@ Leaderboard.belongsTo(User, { foreignKey: 'userId' });
 User.hasMany(UserAchievements, { foreignKey: 'userId' });
 Achievement.hasMany(UserAchievements, { foreignKey: 'achievementId' });
 
-User.hasMany(QuizComment, { foreignKey: 'userId' });
-QuizComment.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(QuizComments, { foreignKey: 'userId' });
+QuizComments.belongsTo(User, { foreignKey: 'userId' });
 
-User.hasMany(QuizCommentResponse, { foreignKey: 'userId' });
-QuizCommentResponse.belongsTo(User, { foreignKey: 'userId' });
-QuizComment.hasMany(QuizCommentResponse, { foreignKey: 'commentId' });
-QuizCommentResponse.belongsTo(QuizComment, { foreignKey: 'commentId' });
+User.hasMany(QuizCommentResponses, { foreignKey: 'userId' });
+QuizCommentResponses.belongsTo(User, { foreignKey: 'userId' });
+QuizComments.hasMany(QuizCommentResponses, { foreignKey: 'commentId' });
+QuizCommentResponses.belongsTo(QuizComments, { foreignKey: 'commentId' });
 
 // Synchronize the models with the database
 db.sync({alter: true})
@@ -247,6 +250,6 @@ db.sync({alter: true})
     Leaderboard,
     Achievement,
     UserAchievements,
-    QuizComment,
-    QuizCommentResponse
+    QuizComments,
+    QuizCommentResponses
   };
