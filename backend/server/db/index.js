@@ -173,7 +173,44 @@ const QuizComment = db.define('QuizComments', {
 });
 
 const QuizCommentResponse = db.define('QuizCommentResponses', {
-
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  commentId: {
+    type: DataTypes.INTEGER,
+    alowNull: false
+  },
+  comment: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
+  datePosted: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: new Date()
+  },
+  likes: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
+  dislikes: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
+  isFlagged: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  }
 });
 
 // Relationships
