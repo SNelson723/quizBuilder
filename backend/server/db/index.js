@@ -159,5 +159,6 @@ db.sync({alter: true})
     User,
     UserScore,
     Leaderboard,
-    Achievement
+    Achievement,
+    UserAchievements
   };
