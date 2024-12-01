@@ -352,5 +352,6 @@ db.sync({alter: true})
     QuizComment,
     QuizCommentResponse,
     UserProfile,
-    Friend
+    Friend,
+    DirectMessage
   };
