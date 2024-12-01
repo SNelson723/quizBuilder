@@ -135,6 +135,39 @@ const UserAchievements = db.define('UserAchievement', {
   }
 });
 
+const QuizComment = db.define('QuizComments', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  datePosted: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: new Date()
+  },
+  likes: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
+  dislikes: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
+  isFlagged: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  }
+});
+
 // Relationships
 User.hasMany(UserScore, { foreignKey: 'userId' });
 UserScore.belongsTo(User, { foreignKey: 'userId' });
@@ -144,6 +177,9 @@ Leaderboard.belongsTo(User, { foreignKey: 'userId'});
 
 User.hasMany(UserAchievements, { foreignKey: 'userId'});
 Achievement.hasMany(UserAchievements, {foreignKey: 'achievementId'});
+
+User.hasMany(QuizComment, { foreignKey: 'userId'});
+QuizComment.belongsTo(User, { foreignKey: 'userId'});
 
 // Synchronize the models with the database
 db.sync({alter: true})
