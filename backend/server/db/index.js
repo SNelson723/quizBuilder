@@ -168,6 +168,10 @@ const QuizComment = db.define('QuizComments', {
   }
 });
 
+const QuizCommentResponse = db.define('QuizCommentResponses', {
+
+});
+
 // Relationships
 User.hasMany(UserScore, { foreignKey: 'userId' });
 UserScore.belongsTo(User, { foreignKey: 'userId' });
@@ -196,5 +200,6 @@ db.sync({alter: true})
     UserScore,
     Leaderboard,
     Achievement,
-    UserAchievements
+    UserAchievements,
+    QuizComment
   };
