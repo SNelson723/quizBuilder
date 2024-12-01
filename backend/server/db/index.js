@@ -135,7 +135,7 @@ const UserAchievements = db.define('UserAchievement', {
   }
 });
 
-const QuizComments = db.define('QuizComment', {
+const QuizComment = db.define('QuizComment', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -172,7 +172,7 @@ const QuizComments = db.define('QuizComment', {
   }
 });
 
-const QuizCommentResponses = db.define('QuizCommentResponse', {
+const QuizCommentResponse = db.define('QuizCommentResponse', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -214,7 +214,46 @@ const QuizCommentResponses = db.define('QuizCommentResponse', {
 });
 
 // Profile tables
-const UserProfiles = db.define('UserProfile')
+const UserProfile = db.define('UserProfile', {
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  bio: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    defaultValue: ''
+  },
+  locationFrom: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: ''
+  },
+  favoriteGenre: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: ''
+  },
+  occupation: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: ''
+  },
+  lastActive: {
+    type: DataTypes.DATE,
+    allowNull: true
+  },
+  avatarUrl: {
+    type: DataTypes.STRING,
+    allownull: true,
+    defaultValue: ''
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  }
+});
 
 // Relationships
 User.hasMany(UserScore, { foreignKey: 'userId' });
@@ -229,10 +268,10 @@ Achievement.hasMany(UserAchievements, { foreignKey: 'achievementId' });
 User.hasMany(QuizComments, { foreignKey: 'userId' });
 QuizComments.belongsTo(User, { foreignKey: 'userId' });
 
-User.hasMany(QuizCommentResponses, { foreignKey: 'userId' });
-QuizCommentResponses.belongsTo(User, { foreignKey: 'userId' });
-QuizComments.hasMany(QuizCommentResponses, { foreignKey: 'commentId' });
-QuizCommentResponses.belongsTo(QuizComments, { foreignKey: 'commentId' });
+User.hasMany(QuizCommentResponse, { foreignKey: 'userId' });
+QuizCommentResponse.belongsTo(User, { foreignKey: 'userId' });
+QuizComment.hasMany(QuizCommentResponse, { foreignKey: 'commentId' });
+QuizCommentResponse.belongsTo(QuizComment, { foreignKey: 'commentId' });
 
 // Synchronize the models with the database
 db.sync({alter: true})
@@ -250,6 +289,7 @@ db.sync({alter: true})
     Leaderboard,
     Achievement,
     UserAchievements,
-    QuizComments,
-    QuizCommentResponses
+    QuizComment,
+    QuizCommentResponse,
+    UserProfile
   };
