@@ -281,6 +281,36 @@ const Friend = db.define('Friend', {
   }
 });
 
+const DirectMessage = db.define('DirectMessage', {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  recipientId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'userId'
+    }
+  },
+  senderId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'userId'
+    }
+  },
+  message: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    defaultValue: ''
+  }
+});
+
 // Relationships
 User.hasMany(UserScore, { foreignKey: 'userId' });
 UserScore.belongsTo(User, { foreignKey: 'userId' });
