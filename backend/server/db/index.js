@@ -265,13 +265,16 @@ Leaderboard.belongsTo(User, { foreignKey: 'userId' });
 User.hasMany(UserAchievements, { foreignKey: 'userId' });
 Achievement.hasMany(UserAchievements, { foreignKey: 'achievementId' });
 
-User.hasMany(QuizComments, { foreignKey: 'userId' });
-QuizComments.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(QuizComment, { foreignKey: 'userId' });
+QuizComment.belongsTo(User, { foreignKey: 'userId' });
 
 User.hasMany(QuizCommentResponse, { foreignKey: 'userId' });
 QuizCommentResponse.belongsTo(User, { foreignKey: 'userId' });
 QuizComment.hasMany(QuizCommentResponse, { foreignKey: 'commentId' });
 QuizCommentResponse.belongsTo(QuizComment, { foreignKey: 'commentId' });
+
+User.hasOne(UserProfile, { foreignKey: 'userId'});
+UserProfile.belongsTo(User, { foreignKey: 'userId'});
 
 // Synchronize the models with the database
 db.sync({alter: true})
