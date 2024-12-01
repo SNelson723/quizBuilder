@@ -256,24 +256,28 @@ const UserProfile = db.define('UserProfile', {
 });
 
 const Friend = db.define('Friend', {
-  id: {
+  userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+    references: {
+      model: User,
+      key: 'userId'
+    }
   },
   friendId: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    primaryKey: true,
+    references: {
+      model: User,
+      key: 'userId'
+    }
   },
   status: {
     type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: ''
+    allowNull: false,
+    defaultValue: 'pending'
   }
 });
 
@@ -298,18 +302,14 @@ QuizCommentResponse.belongsTo(QuizComment, { foreignKey: 'commentId' });
 User.hasOne(UserProfile, { foreignKey: 'userId'});
 UserProfile.belongsTo(User, { foreignKey: 'userId'});
 
-User.hasMany(Friend, { foreignKey: 'userId' });
-User.hasMany(Friend, { foreignKey: 'friendId' });
-Friend.belongsTo(User, { foreignKey: 'userId' });
-Friend.belongsTo(User, { foreignKey: 'friendId' });
-
 // Synchronize the models with the database
 db.sync({alter: true})
   .then(() => {
-    console.log('Database synchronized');
+    console.log('Database synchronized successfully');
   })
   .catch((error) => {
     console.error('Error synchronizing database:', error);
+    process.exit(1);
   });
 
   export {
@@ -321,5 +321,6 @@ db.sync({alter: true})
     UserAchievements,
     QuizComment,
     QuizCommentResponse,
-    UserProfile
+    UserProfile,
+    Friend
   };
