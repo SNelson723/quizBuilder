@@ -255,6 +255,28 @@ const UserProfile = db.define('UserProfile', {
   }
 });
 
+const Friend = db.define('Friend', {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  friendId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: ''
+  }
+});
+
 // Relationships
 User.hasMany(UserScore, { foreignKey: 'userId' });
 UserScore.belongsTo(User, { foreignKey: 'userId' });
@@ -275,6 +297,11 @@ QuizCommentResponse.belongsTo(QuizComment, { foreignKey: 'commentId' });
 
 User.hasOne(UserProfile, { foreignKey: 'userId'});
 UserProfile.belongsTo(User, { foreignKey: 'userId'});
+
+User.hasMany(Friend, { foreignKey: 'userId' });
+User.hasMany(Friend, { foreignKey: 'friendId' });
+Friend.belongsTo(User, { foreignKey: 'userId' });
+Friend.belongsTo(User, { foreignKey: 'friendId' });
 
 // Synchronize the models with the database
 db.sync({alter: true})
