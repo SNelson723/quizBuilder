@@ -146,6 +146,10 @@ const QuizComment = db.define('QuizComments', {
     type: DataTypes.INTEGER,
     allowNull: false
   },
+  comment: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
   datePosted: {
     type: DataTypes.DATE,
     allowNull: false,
