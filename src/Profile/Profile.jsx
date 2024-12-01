@@ -3,11 +3,22 @@ import React, { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { Container, Card, Button, ListGroup } from 'react-bootstrap';
 import { MdModeEdit } from "react-icons/md";
+import axios from 'axios';
 
 const Profile = () => {
+  const [profile, setProfile] = useState({});
   const user = useLoaderData();
   const { userName, image_url, } = user[0];
   // console.log(user[0]);
+
+  useEffect(() => {
+    const getProfile = async () => {
+      const { data } = await axios.get()
+      console.log(data);
+      setProfile(data);
+    };
+    getProfile();
+  }, []);
 
   const handleClick = () => {
     console.log('clicked');
