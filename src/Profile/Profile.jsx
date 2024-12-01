@@ -8,12 +8,12 @@ import axios from 'axios';
 const Profile = () => {
   const [profile, setProfile] = useState({});
   const user = useLoaderData();
-  const { userName, image_url, } = user[0];
-  // console.log(user[0]);
+  const { userName, image_url, userId } = user;
+  console.log(user);
 
   useEffect(() => {
     const getProfile = async () => {
-      const { data } = await axios.get()
+      const { data } = await axios.get(`profile/${userId}`)
       console.log(data);
       setProfile(data);
     };

@@ -6,7 +6,7 @@ import viteExpress from 'vite-express';
 import axios from 'axios';
 import passport from './auth.js';
 import dotenv from 'dotenv';
-import { sequelize, User } from './db/index.js';
+import { sequelize, User, UserProfile } from './db/index.js';
 import session from 'express-session';
 
 dotenv.config();
@@ -69,10 +69,22 @@ app.get('/api/current-user', async (req, res) => {
         email: req.user.email
       }
     });
-    res.status(200).send(user);
+
+    res.status(200).send(user[0]);
   } else {
     res.status(401).json({ message: 'User not authenticated' });
   }
+});
+
+app.get('/profile/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const profile = await UserProfile.findOrCreate({
+    where: {userId: userId},
+    defaults: {
+      userId: userId
+    }
+  });
+  res.status(200).send(profile[0]);
 });
 
 // destroy the session on logout
