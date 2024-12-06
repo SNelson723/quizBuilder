@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { Container, Form } from 'react-bootstrap';
+import { Container, Form, Card, Button } from 'react-bootstrap';
 
 const EditProfile = ({ userId, setBio, setFavoriteGenre, setOccupation, setEdit }) => {
   const [bioText, setBioText] = useState('');
@@ -8,18 +8,28 @@ const EditProfile = ({ userId, setBio, setFavoriteGenre, setOccupation, setEdit 
   const [occupationText, setOccupationText] = useState('');
 
   const updateProfile = () => {
-    axios.put()
+    // axios.put()
   };
 
   return (
     <>
-      <Container>
-        <Form>
-          <Form.Group>
-            <Form.Label>Bio:</Form.Label>
-            <Form.Text></Form.Text>
-          </Form.Group>
-        </Form>
+      <Container className='w-50'>
+        <Card className='w-100'>
+          <Card.Header className='d-flex justify-content-between'>
+            <div>Edit Profile</div>
+            <Button>X</Button>
+          </Card.Header>
+          <Form>
+            <Form.Group>
+              <Form.Label>Bio:</Form.Label>
+              <Form.Text></Form.Text>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Favorite Genre:</Form.Label>
+              <Form.Text></Form.Text>
+            </Form.Group>
+          </Form>
+        </Card>
       </Container>
     </>
   );
