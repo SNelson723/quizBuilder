@@ -25,7 +25,7 @@ const Profile = () => {
   };
 
   if (!user) {
-    return <div>Loading...</div>; // Show loading state while fetching
+    return <div>Loading...</div>;
   }
 
   return (
@@ -57,9 +57,9 @@ const Profile = () => {
                 {/* Add bio stuff here =>text bio by user, location, favorite genre!!, occupation */}
                 {/* Move bio to the right of this, but first render a Add Bio button if there is no bio? */}
                 {/* <ListGroup.Item>Bio <span>Howdy</span></ListGroup.Item> */}
-                <ListGroup.Item>From</ListGroup.Item>
-                <ListGroup.Item>Favorite Genre</ListGroup.Item>
-                <ListGroup.Item>Occupation</ListGroup.Item>
+                <ListGroup.Item>From: </ListGroup.Item>
+                <ListGroup.Item>Favorite Genre: </ListGroup.Item>
+                <ListGroup.Item>Occupation: </ListGroup.Item>
               </ListGroup>
             </Card.Body>
           </Card>
