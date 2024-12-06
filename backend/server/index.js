@@ -78,13 +78,8 @@ app.get('/api/current-user', async (req, res) => {
 
 app.get('/profile/:userId', async (req, res) => {
   const { userId } = req.params;
-  const profile = await UserProfile.findOrCreate({
-    where: {userId: userId},
-    defaults: {
-      userId: userId
-    }
-  });
-  res.status(200).send(profile[0]);
+  const profile = await UserProfile.findOne({ where: { userId }});
+  res.status(200).send(profile);
 });
 
 // destroy the session on logout

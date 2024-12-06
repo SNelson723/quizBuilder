@@ -6,16 +6,19 @@ import { MdModeEdit } from "react-icons/md";
 import axios from 'axios';
 
 const Profile = () => {
-  const [profile, setProfile] = useState({});
+  const [bio, setBio] = useState('');
+  const [favoriteGenre, setFavoriteGenre] = useState('');
+  const [occupation, setOccupation] = useState('');
+
   const user = useLoaderData();
   const { userName, image_url, userId } = user;
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {
     const getProfile = async () => {
       const { data } = await axios.get(`profile/${userId}`)
       console.log(data);
-      setProfile(data);
+      // setProfile(data);
     };
     getProfile();
   }, []);
@@ -57,7 +60,7 @@ const Profile = () => {
                 {/* Add bio stuff here =>text bio by user, location, favorite genre!!, occupation */}
                 {/* Move bio to the right of this, but first render a Add Bio button if there is no bio? */}
                 {/* <ListGroup.Item>Bio <span>Howdy</span></ListGroup.Item> */}
-                <ListGroup.Item>From: </ListGroup.Item>
+                <ListGroup.Item>From: {bio}</ListGroup.Item>
                 <ListGroup.Item>Favorite Genre: </ListGroup.Item>
                 <ListGroup.Item>Occupation: </ListGroup.Item>
               </ListGroup>
