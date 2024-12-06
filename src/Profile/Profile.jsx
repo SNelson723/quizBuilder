@@ -1,7 +1,7 @@
 // Profile.jsx
 import React, { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import { Container, Card, Button, ListGroup } from 'react-bootstrap';
+import { Container, Card, Button, ListGroup, Modal } from 'react-bootstrap';
 import { MdModeEdit } from "react-icons/md";
 import axios from 'axios';
 
@@ -9,6 +9,7 @@ const Profile = () => {
   const [bio, setBio] = useState('');
   const [favoriteGenre, setFavoriteGenre] = useState('');
   const [occupation, setOccupation] = useState('');
+  const [edit, setEdit] = useState(false);
 
   const user = useLoaderData();
   const { userName, image_url, userId } = user;
@@ -18,10 +19,12 @@ const Profile = () => {
     const getProfile = async () => {
       const { data } = await axios.get(`profile/${userId}`)
       console.log(data);
-      // setProfile(data);
+      setBio(data.bio);
+      setFavoriteGenre(data.favoriteGenre);
+      setOccupation(data.occupation);
     };
     getProfile();
-  }, []);
+  }, [userId, bio, favoriteGenre, occupation]);
 
   const handleClick = () => {
     console.log('clicked');
@@ -44,7 +47,7 @@ const Profile = () => {
             </div>
           </div>
           <div>
-            <Button className='text-black' variant='secondary' style={{backgroundColor: 'lightgray', fontWeight: '500'}}>
+            <Button className='text-black' variant='secondary' style={{backgroundColor: 'lightgray', fontWeight: '500'}} onClick={() => setEdit(true)}>
               <MdModeEdit /> Edit profile
             </Button>
           </div>
