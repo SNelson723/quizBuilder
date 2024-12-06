@@ -14,9 +14,9 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+// // Middleware
+// app.use(cors());
+// app.use(express.json());
 
 // Configure express-session middleware
 app.use(session({
@@ -34,6 +34,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const clientPath = path.resolve(__dirname, '../dist');
 app.use(express.static(clientPath));
+
+// Middleware
+app.use(cors());
+app.use(express.json());
 
 // Google OAuth routes
 app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
@@ -153,5 +157,24 @@ app.get('/getQuiz', async (req, res) => {
     res.status(404).send(error);
   }
 });
+
+// update user's profile
+app.put('/editProfile/:userId', async (req, res) => {
+  const { bio, favoriteGenre, occupation} = req.body;
+  const { userId } = req.params;
+
+  const values = {};
+  const { dataValues } = await UserProfile.findOne({ where: { userId }, attributes: ['bio', 'favoriteGenre', 'occupation']});
+
+  if (dataValues.bio !== bio) values.bio = bio;
+  if (dataValues.favoriteGenre !== favoriteGenre) values.favoriteGenre = favoriteGenre;
+  if (dataValues.occupation !== occupation) values.occupation = occupation;
+
+  await UserProfile.update(values, { where: { userId }});
+  res.sendStatus(201);
+});
+
+
+
 
 viteExpress.listen(app, PORT, () => {console.log(`Server is listening at ${PORT}`)});

@@ -18,7 +18,7 @@ const Profile = () => {
 
   useEffect(() => {
     const getProfile = async () => {
-      const { data } = await axios.get(`profile/${userId}`)
+      const { data } = await axios.get(`/profile/${userId}`)
       console.log(data);
       setBio(data.bio);
       setFavoriteGenre(data.favoriteGenre);
@@ -26,10 +26,6 @@ const Profile = () => {
     };
     getProfile();
   }, [userId, bio, favoriteGenre, occupation]);
-
-  const handleClick = () => {
-    console.log('clicked');
-  };
 
   if (!user) {
     return <div>Loading...</div>;
@@ -66,15 +62,21 @@ const Profile = () => {
                   {/* Add bio stuff here =>text bio by user, location, favorite genre!!, occupation */}
                   {/* Move bio to the right of this, but first render a Add Bio button if there is no bio? */}
                   {/* <ListGroup.Item>Bio <span>Howdy</span></ListGroup.Item> */}
-                  <ListGroup.Item>From: {bio}</ListGroup.Item>
-                  <ListGroup.Item>Favorite Genre: </ListGroup.Item>
-                  <ListGroup.Item>Occupation: </ListGroup.Item>
+                  <ListGroup.Item>Bio: {bio}</ListGroup.Item>
+                  <ListGroup.Item>Favorite Genre: {favoriteGenre}</ListGroup.Item>
+                  <ListGroup.Item>Occupation: {occupation}</ListGroup.Item>
                 </ListGroup>
               </Card.Body>
             </Card>
 
           </div>
-          : <EditProfile userId={userId} setBio={setBio} setFavoriteGenre={setFavoriteGenre} setOccupation={setOccupation} setEdit={setEdit} />
+          : <EditProfile
+              userId={userId}
+              setBio={setBio}
+              setFavoriteGenre={setFavoriteGenre}
+              setOccupation={setOccupation}
+              setEdit={setEdit}
+            />
         }
       </Container>
     </>

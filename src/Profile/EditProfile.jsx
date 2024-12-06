@@ -2,16 +2,22 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Container, Form, Card, Button } from 'react-bootstrap';
 
-const EditProfile = ({ userId, setBio, setFavoriteGenre, setOccupation, setEdit }) => {
+const EditProfile = ({ userId, setBio, setFavoriteGenre, setOccupation, setEdit, bio, favoriteGenre, occupation }) => {
   const [bioText, setBioText] = useState('');
   const [genreText, setGenreText] = useState('');
   const [occupationText, setOccupationText] = useState('');
 
-  const updateProfile = () => {
-    // axios.put()
-  };
+  const updateProfile = async () => {
+    try {
+      if (bio !== bioText) setBio(bioText);
+      await axios.put(`/editProfile/${userId}`, {bio: bioText, favoriteGenre: genreText, occupation: occupationText});
 
-  console.log(bioText, genreText, occupationText);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setEdit(false);
+    }
+  };
 
   return (
     <>
@@ -25,21 +31,21 @@ const EditProfile = ({ userId, setBio, setFavoriteGenre, setOccupation, setEdit 
             <Form className='my-2'>
               <Form.Group className='w-75 mx-auto'>
                 <Form.Label>Bio:</Form.Label>
-                <Form.Control id='bio' type='text' onChange={setBioText} />
+                <Form.Control id='bio' type='text' value={bioText} onChange={(e) => setBioText(e.target.value)} />
               </Form.Group>
 
               <Form.Group className='w-75 mx-auto'>
                 <Form.Label>Favorite Genre:</Form.Label>
-                <Form.Control id='genre' type='text' onChange={(setGenreText)} />
+                <Form.Control id='genre' type='text' value={genreText} onChange={(e) => setGenreText(e.target.value)} />
               </Form.Group>
 
               <Form.Group className='w-75 mx-auto'>
                 <Form.Label>Occupation:</Form.Label>
-                <Form.Control id='occupation' type='text' onChange={setOccupationText} />
+                <Form.Control id='occupation' type='text' value={occupationText} onChange={(e) => setOccupationText(e.target.value)} />
               </Form.Group>
             </Form>
           </Card.Body>
-          <Button className='w-50 mx-auto mb-4' style={{backgroundColor: '#537692'}}>Save Changes</Button>
+          <Button className='w-50 mx-auto mb-4' style={{backgroundColor: '#537692'}} onClick={updateProfile}>Save Changes</Button>
         </Card>
       </Container>
     </>
