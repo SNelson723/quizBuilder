@@ -11,22 +11,32 @@ const EditProfile = ({ userId, setBio, setFavoriteGenre, setOccupation, setEdit 
     // axios.put()
   };
 
+  const handleOnChange = (e) => {
+
+  };
+
   return (
     <>
-      <Container className='w-50'>
+      <Container className='w-50 mt-5'>
         <Card className='w-100'>
           <Card.Header className='d-flex justify-content-between'>
             <div>Edit Profile</div>
-            <Button>X</Button>
+            <Button className='rounded-circle' onClick={() => setEdit(false)}>X</Button>
           </Card.Header>
           <Form>
-            <Form.Group>
+            <Form.Group className='w-75 mx-auto'>
               <Form.Label>Bio:</Form.Label>
-              <Form.Text></Form.Text>
+              <Form.Control type='text' onChange={setBioText} />
             </Form.Group>
-            <Form.Group>
+
+            <Form.Group className='w-75 mx-auto'>
               <Form.Label>Favorite Genre:</Form.Label>
-              <Form.Text></Form.Text>
+              <Form.Control id='genre' type='text' onChange={(setGenreText)} />
+            </Form.Group>
+
+            <Form.Group className='w-75 mx-auto'>
+              <Form.Label>Occupation:</Form.Label>
+              <Form.Control id='occupation' type='text' onChange={setOccupationText} />
             </Form.Group>
           </Form>
         </Card>
