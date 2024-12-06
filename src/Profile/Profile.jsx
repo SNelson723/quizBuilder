@@ -74,7 +74,7 @@ const Profile = () => {
             </Card>
 
           </div>
-          : <EditProfile setBio={setBio} setFavoriteGenre={setFavoriteGenre} setOccupation={setOccupation} setEdit={setEdit} />
+          : <EditProfile userId={userId} setBio={setBio} setFavoriteGenre={setFavoriteGenre} setOccupation={setOccupation} setEdit={setEdit} />
         }
       </Container>
     </>
