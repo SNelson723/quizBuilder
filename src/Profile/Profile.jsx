@@ -1,8 +1,9 @@
 // Profile.jsx
 import React, { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import { Container, Card, Button, ListGroup, Modal } from 'react-bootstrap';
+import { Container, Card, Button, ListGroup } from 'react-bootstrap';
 import { MdModeEdit } from "react-icons/md";
+import EditProfile from './EditProfile';
 import axios from 'axios';
 
 const Profile = () => {
@@ -54,23 +55,27 @@ const Profile = () => {
         </div>
 
         {/* Profile Body */}
-        <div style={{backgroundColor: 'gray'}}>
-          <Card bg='white' className='w-25 p-2' style={{backgroundColor: 'white'}}>
-            <Card.Title>About</Card.Title>
-            {/* <Button onClick={handleClick}>Add Bio</Button> */}
-            <Card.Body>
-              <ListGroup>
-                {/* Add bio stuff here =>text bio by user, location, favorite genre!!, occupation */}
-                {/* Move bio to the right of this, but first render a Add Bio button if there is no bio? */}
-                {/* <ListGroup.Item>Bio <span>Howdy</span></ListGroup.Item> */}
-                <ListGroup.Item>From: {bio}</ListGroup.Item>
-                <ListGroup.Item>Favorite Genre: </ListGroup.Item>
-                <ListGroup.Item>Occupation: </ListGroup.Item>
-              </ListGroup>
-            </Card.Body>
-          </Card>
+        {!edit
+          ?
+          <div style={{backgroundColor: 'gray'}}>
+            <Card bg='white' className='w-25 p-2' style={{backgroundColor: 'white'}}>
+              <Card.Title>About</Card.Title>
+              {/* <Button onClick={handleClick}>Add Bio</Button> */}
+              <Card.Body>
+                <ListGroup>
+                  {/* Add bio stuff here =>text bio by user, location, favorite genre!!, occupation */}
+                  {/* Move bio to the right of this, but first render a Add Bio button if there is no bio? */}
+                  {/* <ListGroup.Item>Bio <span>Howdy</span></ListGroup.Item> */}
+                  <ListGroup.Item>From: {bio}</ListGroup.Item>
+                  <ListGroup.Item>Favorite Genre: </ListGroup.Item>
+                  <ListGroup.Item>Occupation: </ListGroup.Item>
+                </ListGroup>
+              </Card.Body>
+            </Card>
 
-        </div>
+          </div>
+          : <EditProfile setBio={setBio} setFavoriteGenre={setFavoriteGenre} setOccupation={setOccupation} setEdit={setEdit} />
+        }
       </Container>
     </>
   );
