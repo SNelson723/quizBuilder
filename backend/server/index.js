@@ -14,10 +14,6 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
-// // Middleware
-// app.use(cors());
-// app.use(express.json());
-
 // Configure express-session middleware
 app.use(session({
   secret: process.env.SESSION_SECRET || 'quizzia', // Use a secure secret in production
