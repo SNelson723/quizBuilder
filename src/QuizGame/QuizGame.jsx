@@ -10,10 +10,11 @@ const QuizGame = ({ categories }) => {
   const [amount, setAmount] = useState('5');
   const [difficulty, setDifficulty] = useState('');
   const [category, setCategory] = useState('');
-  const [type, setType] = useState('');
+  const [type, setType] = useState('multiple');
   const [cards, setCards] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [categoryHeader, setCategoryHeader] = useState('');
+  const [apiKey, setApiKey] = useState('');
   /**
    * Let the use know if they got the answer right/wrong and display a prompt with a random message
    * 
@@ -23,6 +24,14 @@ const QuizGame = ({ categories }) => {
    *  Think about the format of the game and how you want to navigate or show a new React Fragment
    *    => conditional Rendering?
    */
+  useEffect(() => {
+    const getApiKey = async () => {
+      const { data } = await axios.get('https://opentdb.com/api_token.php?command=request');
+      setApiKey(data.token);
+    };
+    getApiKey();
+  }, []);
+
   const handleOnSelect = (e, setOption, setHeader = null) => {
     const index = e.target.selectedIndex;
     const value = e.target.children[index].id;
@@ -41,7 +50,7 @@ const QuizGame = ({ categories }) => {
           difficulty: difficulty,
           category: category,
           type: type,
-          api_key: import.meta.env.VITE_API_KEY
+          api_key: apiKey
         }
       });
       setCards(data.results);
@@ -87,7 +96,6 @@ const QuizGame = ({ categories }) => {
               <Form.Group  className='w-25 mx-auto text-center'>
                 <Form.Label htmlFor='type'>Type of quiz</Form.Label>
                 <Form.Select id="type" onChange={(e) => handleOnSelect(e, setType)}>
-                  <option id="">Any Type</option>
                   <option id='multiple'>Multiple Choice</option>
                   <option id='boolean'>True or False</option>
                 </Form.Select>

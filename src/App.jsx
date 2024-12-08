@@ -10,6 +10,7 @@ import Profile from './Profile/Profile';
 
 const App = () => {
   const [categories, setCategories] = useState([]);
+  const [apiKey, setApiKey] = useState('');
 
   useEffect(() => {
     const fetchCategories = async () => {
